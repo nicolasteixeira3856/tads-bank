@@ -5,17 +5,34 @@
  */
 package views;
 
+import controller.DataController;
+import entidades.*;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Vitor
  */
 public class TelaManejarContas extends javax.swing.JFrame {
-
+    public DataController dadosSigilosos;
+    
+    public List<Cliente> clientes;
+    public List<ContaInvestimento> contasInvestimento;
+    public List<ContaCorrente> contasCorrente;
+    public ContaInvestimento contaInvestimento;
+    public ContaCorrente contaCorrente;
+    public String tipo = "";
+    public int index;
     /**
      * Creates new form TelaManejarContas
      */
     public TelaManejarContas() {
         initComponents();
+        dadosSigilosos = DataController.getInstance();
+        clientes = dadosSigilosos.getClientesList();
+        contasInvestimento = dadosSigilosos.getContaInvestimentoList();
+        contasCorrente = dadosSigilosos.getContaCorrenteList();
     }
 
     /**
@@ -29,20 +46,21 @@ public class TelaManejarContas extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        textoCpf = new javax.swing.JTextField();
+        encontrarClientes = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        campoSacar = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jTextField3 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        botaoSaque = new javax.swing.JButton();
+        campoDeposita = new javax.swing.JTextField();
+        botaoDeposito = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        botaoSaldo = new javax.swing.JButton();
+        botaoRemunera = new javax.swing.JButton();
+        labelSaldo = new javax.swing.JLabel();
+        voltarBotao = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,13 +69,18 @@ public class TelaManejarContas extends javax.swing.JFrame {
 
         jLabel2.setText("CPF cliente");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        textoCpf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                textoCpfActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Encontrar Cliente");
+        encontrarClientes.setText("Encontrar Cliente");
+        encontrarClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                encontrarClientesActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Cambria", 0, 18)); // NOI18N
         jLabel3.setText("Ações sobre a conta");
@@ -67,21 +90,31 @@ public class TelaManejarContas extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         jLabel4.setText("Sacar");
 
-        jTextField2.setText("Valor a ser sacado");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        campoSacar.setText("Valor a ser sacado");
+        campoSacar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                campoSacarActionPerformed(evt);
             }
         });
 
         jLabel6.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         jLabel6.setText("Deposito");
 
-        jButton2.setText("Efetuar Saque");
+        botaoSaque.setText("Efetuar Saque");
+        botaoSaque.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoSaqueActionPerformed(evt);
+            }
+        });
 
-        jTextField3.setText("Valor a ser depositado");
+        campoDeposita.setText("Valor a ser depositado");
 
-        jButton3.setText("Efetuar Deposito");
+        botaoDeposito.setText("Efetuar Deposito");
+        botaoDeposito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoDepositoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,15 +123,15 @@ public class TelaManejarContas extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                    .addComponent(campoSacar)
+                    .addComponent(botaoSaque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(campoDeposita, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel6))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(botaoDeposito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -107,31 +140,36 @@ public class TelaManejarContas extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(campoSacar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(botaoSaque)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(campoDeposita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(botaoDeposito)
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(new javax.swing.border.MatteBorder(null));
 
-        jButton4.setText("Ver Saldo");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        botaoSaldo.setText("Ver Saldo");
+        botaoSaldo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                botaoSaldoActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Remunera");
+        botaoRemunera.setText("Remunera");
+        botaoRemunera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoRemuneraActionPerformed(evt);
+            }
+        });
 
-        jLabel5.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        jLabel5.setText("R$ 0,00");
+        labelSaldo.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        labelSaldo.setText("R$ 0,00");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -140,11 +178,11 @@ public class TelaManejarContas extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botaoSaldo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botaoRemunera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(labelSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 9, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -152,13 +190,20 @@ public class TelaManejarContas extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botaoSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botaoRemunera, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
         );
+
+        voltarBotao.setText("Voltar");
+        voltarBotao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voltarBotaoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -171,58 +216,226 @@ public class TelaManejarContas extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(voltarBotao, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(encontrarClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(textoCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(161, 161, 161))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(115, 115, 115)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(161, 161, 161))
+                                .addComponent(jLabel2)
+                                .addGap(246, 246, 246))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(115, 115, 115))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(246, 246, 246))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(184, 184, 184))))
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(184, 184, 184))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(voltarBotao))
+                .addGap(22, 22, 22)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(textoCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(encontrarClientes)
                 .addGap(27, 27, 27)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void textoCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoCpfActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_textoCpfActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void campoSacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoSacarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_campoSacarActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void botaoSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSaldoActionPerformed
+        if(this.tipo.equals("")){
+            JOptionPane.showMessageDialog(rootPane, "Por favor, digite o CPF do cliente", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String saldo;
+        switch(tipo){
+            case "Investimento":
+                saldo = "R$ " + contaInvestimento.getSaldo();
+                labelSaldo.setText(saldo);
+                break;
+            case "Corrente":
+                saldo = "R$ " + contaCorrente.getSaldo();
+                labelSaldo.setText(saldo);
+                break;
+        }
+    }//GEN-LAST:event_botaoSaldoActionPerformed
+
+    private void voltarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarBotaoActionPerformed
+        dadosSigilosos.setContasCorrente(contasCorrente);
+        dadosSigilosos.setContasInvestimento(contasInvestimento);
+        JFrameTelaInicial tela = new JFrameTelaInicial();
+        tela.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_voltarBotaoActionPerformed
+
+    private void encontrarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_encontrarClientesActionPerformed
+        if(textoCpf.getText().equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Campo inválido", "Erro", JOptionPane.ERROR_MESSAGE); 
+        }
+        if(dadosSigilosos.getClientByCPF(textoCpf.getText()) == false) {
+            JOptionPane.showMessageDialog(rootPane, "Cliente não encontrado", "Erro", JOptionPane.ERROR_MESSAGE);
+        } 
+        
+        for (ContaInvestimento account : contasInvestimento){
+            if(account.getDono().getCPF().equals(textoCpf.getText())){
+                contaInvestimento = account;
+                JOptionPane.showMessageDialog(rootPane, "Cliente encontrado com sucesso", "Success", JOptionPane.OK_OPTION);
+                this.tipo = "Investimento";
+                return;
+            }
+        }
+        
+        for (ContaCorrente account : contasCorrente){
+            if(account.getDono().getCPF().equals(textoCpf.getText())){
+                contaCorrente = account;
+                this.tipo = "Corrente";
+                JOptionPane.showMessageDialog(rootPane, "Cliente encontrado com sucesso", "Success", JOptionPane.OK_OPTION);
+                return;
+            }
+        }
+        
+        if (this.tipo.equals("")){
+            JOptionPane.showMessageDialog(rootPane, "Cliente não esta vinculado a uma conta", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_encontrarClientesActionPerformed
+
+    private void botaoSaqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSaqueActionPerformed
+         if(this.tipo.equals("")){
+            JOptionPane.showMessageDialog(rootPane, "Por favor, digite o CPF do cliente", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        boolean deuCerto;
+        switch(tipo){
+            case "Investimento":
+                try {
+                    index = contasInvestimento.indexOf(contaInvestimento);
+                    String valorSaqueRaw = campoSacar.getText();
+                    double valorSaque = Double.parseDouble(valorSaqueRaw);
+                    deuCerto = contaInvestimento.saca(valorSaque);
+                    if (deuCerto){
+                        JOptionPane.showMessageDialog(rootPane, "Deu certo o saque", "Sucesso",  JOptionPane.OK_OPTION);
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Deu errado o saque", "Erro",  JOptionPane.OK_OPTION);
+                    }
+                    contasInvestimento.set(index, contaInvestimento);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao efetuar o Saque", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+            case "Corrente":
+                try {
+                    index = contasCorrente.indexOf(contaCorrente);
+                    String valorSaqueRaw = campoSacar.getText();
+                    double valorSaque = Double.parseDouble(valorSaqueRaw);
+                    deuCerto = contaCorrente.saca(valorSaque);
+                    contasCorrente.set(index, contaCorrente);
+                    if (deuCerto){
+                        JOptionPane.showMessageDialog(rootPane, "Deu certo o saque", "Sucesso",  JOptionPane.OK_OPTION);
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Deu errado o saque", "Erro",  JOptionPane.OK_OPTION);
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao efetuar o Saque", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+        }
+    }//GEN-LAST:event_botaoSaqueActionPerformed
+
+    private void botaoDepositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoDepositoActionPerformed
+         if(this.tipo.equals("")){
+            JOptionPane.showMessageDialog(rootPane, "Por favor, digite o CPF do cliente", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+         boolean deuCerto;
+        switch(tipo){
+            case "Investimento":
+                try {
+                    index = contasInvestimento.indexOf(contaInvestimento);
+                    String valorDepositaRaw = campoDeposita.getText();
+                    double valorDeposita = Double.parseDouble(valorDepositaRaw);
+                    deuCerto = contaInvestimento.deposita(valorDeposita);
+                    contasInvestimento.set(index, contaInvestimento);
+                    if (deuCerto) {
+                        JOptionPane.showMessageDialog(rootPane, "Valor adicionado na conta com sucesso", "Success", JOptionPane.OK_OPTION);
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao efetuar o Saque", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+            case "Corrente":
+                try {
+                    index = contasCorrente.indexOf(contaCorrente);
+                    String valorDepositaRaw = campoDeposita.getText();
+                    double valorDeposita = Double.parseDouble(valorDepositaRaw);
+                    deuCerto = contaCorrente.deposita(valorDeposita);
+                    if (deuCerto) {
+                        JOptionPane.showMessageDialog(rootPane, "Valor adicionado na conta com sucesso", "Success", JOptionPane.OK_OPTION);
+                    }
+                    contasCorrente.set(index, contaCorrente);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao efetuar o Saque", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+        }
+    }//GEN-LAST:event_botaoDepositoActionPerformed
+
+    private void botaoRemuneraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoRemuneraActionPerformed
+         if(this.tipo.equals("")){
+            JOptionPane.showMessageDialog(rootPane, "Por favor, digite o CPF do cliente", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        switch(tipo){
+            case "Investimento":
+                try {
+                    index = contasInvestimento.indexOf(contaInvestimento);
+                    contaInvestimento.remunera();
+                    contasInvestimento.set(index, contaInvestimento);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao efetuar o remunera", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+            case "Corrente":
+                try {
+                    index = contasCorrente.indexOf(contaCorrente);
+                    contaCorrente.remunera(); 
+                    contasCorrente.set(index, contaCorrente);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao efetuar o remunera", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+        }
+    }//GEN-LAST:event_botaoRemuneraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,21 +474,22 @@ public class TelaManejarContas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton botaoDeposito;
+    private javax.swing.JButton botaoRemunera;
+    private javax.swing.JButton botaoSaldo;
+    private javax.swing.JButton botaoSaque;
+    private javax.swing.JTextField campoDeposita;
+    private javax.swing.JTextField campoSacar;
+    private javax.swing.JButton encontrarClientes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel labelSaldo;
+    private javax.swing.JTextField textoCpf;
+    private javax.swing.JButton voltarBotao;
     // End of variables declaration//GEN-END:variables
 }
