@@ -300,34 +300,39 @@ public class TelaManejarContas extends javax.swing.JFrame {
     }//GEN-LAST:event_voltarBotaoActionPerformed
 
     private void encontrarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_encontrarClientesActionPerformed
+        System.out.println("Text CPF:" + textoCpf.getText());
         if(textoCpf.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, "Campo inválido", "Erro", JOptionPane.ERROR_MESSAGE); 
-        }
-        if(dadosSigilosos.getClientByCPF(textoCpf.getText()) == false) {
-            JOptionPane.showMessageDialog(rootPane, "Cliente não encontrado", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
         } 
         
+        if(dadosSigilosos.getClientByCPF(textoCpf.getText()) == false) {
+            JOptionPane.showMessageDialog(rootPane, "Cliente não encontrado", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        } 
+
         for (ContaInvestimento account : contasInvestimento){
-            if(account.getDono().getCPF().equals(textoCpf.getText())){
+            if(account.getDono().getCpf().equals(textoCpf.getText())){
                 contaInvestimento = account;
-                JOptionPane.showMessageDialog(rootPane, "Cliente encontrado com sucesso", "Success", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "Cliente encontrado com sucesso", "Success", JOptionPane.INFORMATION_MESSAGE);
                 this.tipo = "Investimento";
                 return;
             }
         }
-        
+
         for (ContaCorrente account : contasCorrente){
-            if(account.getDono().getCPF().equals(textoCpf.getText())){
+            if(account.getDono().getCpf().equals(textoCpf.getText())){
                 contaCorrente = account;
                 this.tipo = "Corrente";
-                JOptionPane.showMessageDialog(rootPane, "Cliente encontrado com sucesso", "Success", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "Cliente encontrado com sucesso", "Success", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
         }
-        
+
         if (this.tipo.equals("")){
             JOptionPane.showMessageDialog(rootPane, "Cliente não esta vinculado a uma conta", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+      
     }//GEN-LAST:event_encontrarClientesActionPerformed
 
     private void botaoSaqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSaqueActionPerformed

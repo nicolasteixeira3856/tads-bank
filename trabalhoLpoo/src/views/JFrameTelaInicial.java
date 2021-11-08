@@ -18,6 +18,7 @@ import ui.TableModel;
 public class JFrameTelaInicial extends javax.swing.JFrame {
      private List<Cliente> clientes;
      public DataController dados;
+     TableModel modelo;
     
     /**
      * Creates new form JFrameTelaInicial
@@ -26,7 +27,9 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
         initComponents();
         dados = DataController.getInstance();
         clientes = dados.getClientesList();
-        TableModel modelo = new TableModel(clientes); 
+        
+        modelo = new TableModel(clientes);
+        tableClientes.setAutoCreateRowSorter(true);
         tableClientes.setModel(modelo);
         tableClientes.setRowHeight(60);
         tableClientes.setAutoCreateColumnsFromModel(false);
@@ -59,32 +62,12 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
         textoEndereco = new javax.swing.JTextField();
         textoSalario = new javax.swing.JTextField();
         inserirCliente = new javax.swing.JButton();
+        vinculaConta = new javax.swing.JButton();
+        excluirCliente = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tableClientes.setBorder(new javax.swing.border.MatteBorder(null));
-        tableClientes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Nome", "Sobrenome", "RG", "CPF", "Endereço", "Salário", "Ações"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
         tableClientes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tableClientes.setName("TabelaClientes"); // NOI18N
         tableClientes.setShowGrid(false);
@@ -140,6 +123,13 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
             }
         });
 
+        vinculaConta.setText("Vincular contas");
+        vinculaConta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vinculaContaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -147,24 +137,6 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textoSobrenome)
-                            .addComponent(textoNome))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textoRg)
-                            .addComponent(textoCpf, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textoEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(textoSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(inserirCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(manejaConta, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -184,7 +156,27 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(326, 326, 326)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 275, Short.MAX_VALUE)))
+                        .addGap(0, 274, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textoSobrenome)
+                            .addComponent(textoNome))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textoRg)
+                            .addComponent(textoCpf, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textoEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(textoSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(inserirCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(vinculaConta)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(manejaConta)))))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -201,7 +193,7 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
                     .addComponent(textoNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textoRg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textoEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel5)
@@ -212,19 +204,32 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
                     .addComponent(textoCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textoSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(inserirCliente))
-                .addGap(10, 10, 10)
-                .addComponent(manejaConta, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(manejaConta, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                    .addComponent(vinculaConta, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
+                .addContainerGap())
         );
+
+        excluirCliente.setBackground(new java.awt.Color(238, 75, 43));
+        excluirCliente.setForeground(new java.awt.Color(255, 255, 255));
+        excluirCliente.setText("Excluir");
+        excluirCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                excluirClienteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1)
+                    .addComponent(excluirCliente, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -233,13 +238,24 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(excluirCliente)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void resetarCampos() {
+        textoNome.setText("");
+        textoSobrenome.setText("");
+        textoRg.setText("");
+        textoCpf.setText("");
+        textoEndereco.setText("");
+        textoSalario.setText("");
+    }
+    
     // Botao de manejar contas
     private void manejarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manejarActionPerformed
         TelaManejarContas tela = new TelaManejarContas();
@@ -269,13 +285,35 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
         String salario = textoSalario.getText();
         
         if ("".equals(nome) || "".equals(sobrenome) || "".equals(rg) || "".equals(cpf) || "".equals(endereco) || "".equals(salario)) {
-            JOptionPane.showMessageDialog(rootPane, "Valores inválidos", "Erro", JOptionPane.ERROR_MESSAGE);      
+            resetarCampos();
+            JOptionPane.showMessageDialog(rootPane, "Valores inválidos", "Erro", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Cliente novoCliente = new Cliente(nome, sobrenome, rg,cpf, endereco, salario);
+            dados.insertClient(novoCliente);
+            clientes = dados.getClientesList();
+            resetarCampos();
+            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
         }
-        
-        Cliente novoCliente = new Cliente(nome, sobrenome, rg,cpf, endereco, salario);
-        dados.insertClient(novoCliente);
-        clientes = dados.getClientesList();
     }//GEN-LAST:event_inserirClienteActionPerformed
+
+    
+    private void vinculaContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vinculaContaActionPerformed
+        TelaVincularContaCliente tela = new TelaVincularContaCliente();
+        tela.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_vinculaContaActionPerformed
+
+    private void excluirClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirClienteActionPerformed
+        int rowList = tableClientes.convertRowIndexToModel(tableClientes.getSelectedRow());
+        if (tableClientes.getSelectedRow() != -1) {
+            //Cliente clienteExcluir = modelo.getValueAtRow(row);
+            //System.out.println(row);
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja proceder? \n Todas as contas do cliente serão apagadas.", "Confirmar exclusão", JOptionPane.YES_NO_OPTION);
+            if(dialogResult == JOptionPane.YES_OPTION){
+                modelo.removeRow(tableClientes.getSelectedRow(), rowList);
+            }
+        }
+    }//GEN-LAST:event_excluirClienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -313,6 +351,7 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton excluirCliente;
     private javax.swing.JButton inserirCliente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -331,5 +370,6 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
     private javax.swing.JTextField textoRg;
     private javax.swing.JTextField textoSalario;
     private javax.swing.JTextField textoSobrenome;
+    private javax.swing.JButton vinculaConta;
     // End of variables declaration//GEN-END:variables
 }

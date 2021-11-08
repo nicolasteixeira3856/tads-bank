@@ -22,7 +22,7 @@ public class DataController {
     
     public boolean getClientByCPF(String cpf) {
         for(Cliente client : clientes){
-            if (client.getCPF().equals(cpf)){
+            if (client.getCpf().equals(cpf)){
                 return true;
             }
         }
@@ -39,7 +39,7 @@ public class DataController {
     
     public ContaInvestimento getInvestimentAccountByCPF(String cpf){
         for(ContaInvestimento account : contasInvestimento) {
-            if(account.getDono().getCPF().equals(cpf)){
+            if(account.getDono().getCpf().equals(cpf)){
                 return account;
             }
         }
@@ -48,7 +48,7 @@ public class DataController {
     
     public ContaCorrente getSalaryAccountByCPF(String cpf){
         for(ContaCorrente account : contasCorrente) {
-            if(account.getDono().getCPF().equals(cpf)){
+            if(account.getDono().getCpf().equals(cpf)){
                 return account;
             }
         }
@@ -56,7 +56,7 @@ public class DataController {
     }
     
     public boolean insertClient(Cliente cliente) {
-        if(getClientByCPF(cliente.getCPF()) == true ){
+        if(getClientByCPF(cliente.getCpf()) == true ){
             return true;
         }
         clientes.add(cliente);

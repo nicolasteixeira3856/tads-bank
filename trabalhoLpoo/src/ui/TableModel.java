@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Vitor
  */
-public class TableModel extends javax.swing.table.AbstractTableModel{
+public class TableModel extends javax.swing.table.AbstractTableModel implements Comparable{
     private List<Cliente> clientes;
     
     public TableModel(List<Cliente> values) {
@@ -27,8 +27,30 @@ public class TableModel extends javax.swing.table.AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-        return 7;
+        return 6;
     }
+
+    @Override
+    public String getColumnName(int column) {
+        switch(column) {
+            case 0:
+                return "Nome";
+            case 1:
+                return "Sobrenome";
+            case 2:
+                return "RG";
+            case 3:
+                return "CPF";
+            case 4:
+                return "Endereço";
+            case 5:
+                return "Salário";
+            default:
+                return "";
+        }
+    }
+    
+    
     
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -45,36 +67,56 @@ public class TableModel extends javax.swing.table.AbstractTableModel{
         switch( columnIndex ) {
             case 0: return cliente.nome;
             case 1: return cliente.sobrenome;
-            case 2: return cliente.getRG();
-            case 3: return cliente.getCPF();
+            case 2: return cliente.getRg();
+            case 3: return cliente.getCpf();
             case 4: return cliente.endereco;
             case 5: return cliente.salario;
         }
         return null;
     }
     
-//    @Override
-//    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-//        Cliente cliente = clientes.get(rowIndex);
-//        switch( columnIndex ) {
-//            case 0:
-//                cliente.setModelo(aValue.toString()); 
-//                break;
-//            case 1: 
-//                cliente.setDescricao(aValue.toString());                
-//                break;
-//            case 2:
-//                break;
-//            case 3: 
-//                if( aValue instanceof Fabricante ) {
-//                    bic.setFabricante((Fabricante)aValue);
-//                }
-//                break;
-//            case 4:
-//                bic.setValor(parseFloat(aValue.toString()));
-//            case 5: 
-//                bic.setEstoque( Integer.parseInt(aValue.toString()));
-//        }
-//    }
+    public Cliente getValueAtRow(int rowIndex) {
+        if( rowIndex >= clientes.size() ) {
+            return null;
+        }
+        
+        Cliente cliente = clientes.get(rowIndex);
+        return cliente;
+    }
+    
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        Cliente cliente = clientes.get(rowIndex);
+        switch( columnIndex ) {
+            case 0:
+                cliente.setNome(aValue.toString()); 
+                break;
+            case 1: 
+                cliente.setSobrenome(aValue.toString());                
+                break;
+            case 2:
+                cliente.setRg(aValue.toString());   
+                break;
+            case 3:
+                cliente.setCpf(aValue.toString());  
+                break;
+            case 4:
+                cliente.setEndereco(aValue.toString());  
+                break;
+            case 5:
+                cliente.setSalario(aValue.toString());
+                break;
+        }
+    }
+    
+    public void removeRow(int linha, int linhaLista) {
+        this.clientes.remove(linhaLista);
+        this.fireTableRowsDeleted(linha, linha);
+    }
+    
+    @Override
+    public int compareTo(Object arg0) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
