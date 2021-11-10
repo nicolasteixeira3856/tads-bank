@@ -6,7 +6,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -189,9 +189,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="campoSacar">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Valor a ser sacado"/>
-          </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoSacarActionPerformed"/>
           </Events>
@@ -213,9 +210,6 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="campoDeposita">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Valor a ser depositado"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="botaoDeposito">
           <Properties>

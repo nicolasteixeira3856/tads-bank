@@ -10,8 +10,10 @@ import entidades.Cliente;
 import entidades.ContaCorrente;
 import entidades.ContaInvestimento;
 import java.util.List;
+import java.util.Random;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -58,7 +60,7 @@ public class TelaVincularContaCliente extends javax.swing.JFrame {
                   continue forClientes;
                 }
             }
-            comboBoxClientItems.add(clientes.get(i).nome);
+            comboBoxClientItems.add(clientes.get(i).getCpf());
         }
         comboBoxCliente.setModel(new DefaultComboBoxModel(comboBoxClientItems));
     }
@@ -80,6 +82,12 @@ public class TelaVincularContaCliente extends javax.swing.JFrame {
         inputLimite.setEnabled(false);
     }
 
+    private void disposeScreen() {
+        JFrameTelaInicial tela = new JFrameTelaInicial();
+        tela.setVisible(true);
+        dispose();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -142,6 +150,11 @@ public class TelaVincularContaCliente extends javax.swing.JFrame {
         jLabel8.setText("Depósito inicial");
 
         btnVincular.setText("Vincular");
+        btnVincular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVincularActionPerformed(evt);
+            }
+        });
 
         voltarBotao.setText("Voltar");
         voltarBotao.addActionListener(new java.awt.event.ActionListener() {
@@ -234,12 +247,11 @@ public class TelaVincularContaCliente extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void voltarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarBotaoActionPerformed
-        JFrameTelaInicial tela = new JFrameTelaInicial();
-        tela.setVisible(true);
-        dispose();
+        disposeScreen();
     }//GEN-LAST:event_voltarBotaoActionPerformed
 
     private void comboBoxClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxClienteActionPerformed
@@ -248,10 +260,53 @@ public class TelaVincularContaCliente extends javax.swing.JFrame {
 
     private void comboBoxTipoContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxTipoContaActionPerformed
         selectedItem = comboBoxTipoConta.getSelectedItem().toString();
-        System.out.println(selectedItem);
         handleDisableInputs();
     }//GEN-LAST:event_comboBoxTipoContaActionPerformed
 
+    private void btnVincularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVincularActionPerformed
+        String selectedClient = comboBoxCliente.getSelectedItem() == null ? "" : comboBoxCliente.getSelectedItem().toString();
+        if (handleAccountCreationValidation(selectedItem) && !selectedClient.isEmpty()) {
+            if (selectedItem.equals("Conta Corrente")) {
+                for(int i = 0; i < clientes.size(); i++) {
+                    if (clientes.get(i).getCpf().equals(comboBoxCliente.getSelectedItem().toString())) {
+                        Random rand = new Random();
+                        ContaCorrente conta = new ContaCorrente(this.clientes.get(i), rand.nextInt(), Double.parseDouble(inputDepositoInicialContaCor.getText()), Double.parseDouble(inputLimite.getText()));
+                        dados.createNewContaCorrente(conta);
+                        JOptionPane.showMessageDialog(rootPane, "Cliente vinculado com sucesso", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+                        disposeScreen();
+                        return;
+                    }
+                }
+            } else {
+                for(int i = 0; i < clientes.size(); i++) {
+                    if (clientes.get(i).getCpf().equals(comboBoxCliente.getSelectedItem().toString())) {
+                        Random rand = new Random();
+                        ContaInvestimento conta = new ContaInvestimento(this.clientes.get(i), rand.nextInt(), Double.parseDouble(inputDepositoInicialContaInv.getText()), Double.parseDouble(inputDepositoMinimo.getText()), Double.parseDouble(inputMontanteMin.getText()));
+                        dados.createNewContaInvestimento(conta);
+                        JOptionPane.showMessageDialog(rootPane, "Cliente vinculado com sucesso", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+                        disposeScreen();
+                        return;
+                    }
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Valores inválidos, por favor verifique todos os inputs", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnVincularActionPerformed
+
+    private boolean handleAccountCreationValidation(String type){
+        if(type.equals("Conta Corrente")) {
+            if ("".equals(inputLimite.getText()) || "".equals(inputDepositoInicialContaCor.getText())) {
+                return false;
+            }
+            return true;
+        }
+        if ("".equals(inputMontanteMin.getText()) || "".equals(inputDepositoMinimo.getText()) || "".equals(inputDepositoInicialContaInv.getText())) {
+            return false;
+        }
+        return true;
+    }
+    
     /**
      * @param args the command line arguments
      */

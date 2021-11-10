@@ -90,7 +90,6 @@ public class TelaManejarContas extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         jLabel4.setText("Sacar");
 
-        campoSacar.setText("Valor a ser sacado");
         campoSacar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoSacarActionPerformed(evt);
@@ -106,8 +105,6 @@ public class TelaManejarContas extends javax.swing.JFrame {
                 botaoSaqueActionPerformed(evt);
             }
         });
-
-        campoDeposita.setText("Valor a ser depositado");
 
         botaoDeposito.setText("Efetuar Deposito");
         botaoDeposito.addActionListener(new java.awt.event.ActionListener() {
@@ -263,6 +260,7 @@ public class TelaManejarContas extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void textoCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoCpfActionPerformed
@@ -349,7 +347,7 @@ public class TelaManejarContas extends javax.swing.JFrame {
                     double valorSaque = Double.parseDouble(valorSaqueRaw);
                     deuCerto = contaInvestimento.saca(valorSaque);
                     if (deuCerto){
-                        JOptionPane.showMessageDialog(rootPane, "Deu certo o saque", "Sucesso",  JOptionPane.OK_OPTION);
+                        JOptionPane.showMessageDialog(null, "Deu certo o saque", "Sucesso",  JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Deu errado o saque", "Erro",  JOptionPane.OK_OPTION);
                     }
@@ -366,7 +364,7 @@ public class TelaManejarContas extends javax.swing.JFrame {
                     deuCerto = contaCorrente.saca(valorSaque);
                     contasCorrente.set(index, contaCorrente);
                     if (deuCerto){
-                        JOptionPane.showMessageDialog(rootPane, "Deu certo o saque", "Sucesso",  JOptionPane.OK_OPTION);
+                        JOptionPane.showMessageDialog(null, "Deu certo o saque", "Sucesso",  JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Deu errado o saque", "Erro",  JOptionPane.OK_OPTION);
                     }
@@ -382,20 +380,25 @@ public class TelaManejarContas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Por favor, digite o CPF do cliente", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
-         boolean deuCerto;
+        boolean deuCerto;
+        System.out.println("Tipo: " + tipo);
         switch(tipo){
             case "Investimento":
                 try {
                     index = contasInvestimento.indexOf(contaInvestimento);
                     String valorDepositaRaw = campoDeposita.getText();
                     double valorDeposita = Double.parseDouble(valorDepositaRaw);
+                    if (contaInvestimento.depositoMinimo > valorDeposita) {
+                        JOptionPane.showMessageDialog(null, "Não foi possível depositar, o depósito mínimo para essa conta é: " + contaInvestimento.depositoMinimo, "Success", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    }
                     deuCerto = contaInvestimento.deposita(valorDeposita);
                     contasInvestimento.set(index, contaInvestimento);
                     if (deuCerto) {
-                        JOptionPane.showMessageDialog(rootPane, "Valor adicionado na conta com sucesso", "Success", JOptionPane.OK_OPTION);
+                        JOptionPane.showMessageDialog(null, "Valor adicionado na conta com sucesso", "Success", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(rootPane, "Erro ao efetuar o Saque", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao efetuar o deposito", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
             case "Corrente":
@@ -405,11 +408,11 @@ public class TelaManejarContas extends javax.swing.JFrame {
                     double valorDeposita = Double.parseDouble(valorDepositaRaw);
                     deuCerto = contaCorrente.deposita(valorDeposita);
                     if (deuCerto) {
-                        JOptionPane.showMessageDialog(rootPane, "Valor adicionado na conta com sucesso", "Success", JOptionPane.OK_OPTION);
+                        JOptionPane.showMessageDialog(null, "Valor adicionado na conta com sucesso", "Success", JOptionPane.INFORMATION_MESSAGE);
                     }
                     contasCorrente.set(index, contaCorrente);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(rootPane, "Erro ao efetuar o Saque", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(rootPane, "Erro ao efetuar o deposito", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
         }

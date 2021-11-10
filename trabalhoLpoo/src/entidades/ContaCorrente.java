@@ -17,8 +17,15 @@ package entidades;
  */
 public class ContaCorrente extends Conta {
     public String tipo = "ContaCorrente";
+    public double limite;
+    
     public ContaCorrente(Cliente donoConta, int numeroConta){
         super(donoConta, numeroConta);
+    }
+    
+    public ContaCorrente(Cliente donoConta, int numeroConta, double depositoInicial, double limite){
+        super(donoConta, numeroConta, depositoInicial);
+        this.limite = limite;
     }
     
     @Override

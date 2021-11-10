@@ -10,6 +10,7 @@ import entidades.Cliente;
 import java.util.List;
 import javax.swing.JOptionPane;
 import ui.TableModel;
+import utils.Validator;
 
 /**
  *
@@ -245,6 +246,7 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void resetarCampos() {
@@ -284,16 +286,21 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
         String endereco = textoEndereco.getText();
         String salario = textoSalario.getText();
         
+        
         if ("".equals(nome) || "".equals(sobrenome) || "".equals(rg) || "".equals(cpf) || "".equals(endereco) || "".equals(salario)) {
             resetarCampos();
             JOptionPane.showMessageDialog(rootPane, "Valores inválidos", "Erro", JOptionPane.ERROR_MESSAGE);
-        } else {
+            return;
+        } 
+        if (Validator.isCPF(cpf)) {
             Cliente novoCliente = new Cliente(nome, sobrenome, rg,cpf, endereco, salario);
             dados.insertClient(novoCliente);
             clientes = dados.getClientesList();
             resetarCampos();
             JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+            return;
         }
+        JOptionPane.showMessageDialog(rootPane, "CPF inválido", "Erro", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_inserirClienteActionPerformed
 
     

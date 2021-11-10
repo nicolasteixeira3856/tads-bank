@@ -19,6 +19,12 @@ public class ContaInvestimento extends Conta {
         super(donoConta, 0);
     }
     
+    public ContaInvestimento(Cliente donoConta, int numeroConta, double depositoInicial, double depositoMinimo, double montanteMinimo){
+        super(donoConta, numeroConta, depositoInicial);
+        this.depositoMinimo = depositoMinimo;
+        this.montanteMinimo = montanteMinimo;
+    }
+    
     @Override
     public boolean deposita(double valor) {
         if(valor >= depositoMinimo){

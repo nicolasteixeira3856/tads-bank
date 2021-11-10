@@ -14,10 +14,18 @@ public class Conta implements ContaI {
     private double saldo;
     private Cliente donoConta;
     private int numeroConta;
+    private double depositoInicial = 0;
     
     public Conta(Cliente donoConta, int numeroConta) {
         this.numeroConta = numeroConta;
         this.donoConta = donoConta;
+    }
+    
+    public Conta(Cliente donoConta, int numeroConta, double depositoInicial) {
+        this.numeroConta = numeroConta;
+        this.donoConta = donoConta;
+        this.depositoInicial = depositoInicial;
+        this.saldo = depositoInicial;
     }
     
     @Override

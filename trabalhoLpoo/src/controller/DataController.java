@@ -33,8 +33,16 @@ public class DataController {
         this.contasCorrente = contas;
     }
     
+    public void createNewContaCorrente(ContaCorrente conta){
+        this.contasCorrente.add(conta);
+    }
+    
     public void setContasInvestimento(List<ContaInvestimento> contas){
         this.contasInvestimento = contas;
+    }
+    
+    public void createNewContaInvestimento(ContaInvestimento conta){
+        this.contasInvestimento.add(conta);
     }
     
     public ContaInvestimento getInvestimentAccountByCPF(String cpf){
