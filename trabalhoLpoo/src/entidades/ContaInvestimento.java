@@ -16,11 +16,11 @@ public class ContaInvestimento extends Conta {
     public String tipo = "ContaInvestimento";
     
     public ContaInvestimento(Cliente donoConta){
-        super(donoConta, 0);
+        super(donoConta, 200, 200);
     }
     
-    public ContaInvestimento(Cliente donoConta, int numeroConta, double depositoInicial, double depositoMinimo, double montanteMinimo){
-        super(donoConta, numeroConta, depositoInicial);
+    public ContaInvestimento(Cliente donoConta, double saldo, double depositoInicial, double depositoMinimo, double montanteMinimo){
+        super(donoConta, saldo, depositoInicial);
         this.depositoMinimo = depositoMinimo;
         this.montanteMinimo = montanteMinimo;
     }

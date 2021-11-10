@@ -34,6 +34,24 @@ public class TelaManejarContas extends javax.swing.JFrame {
         contasInvestimento = dadosSigilosos.getContaInvestimentoList();
         contasCorrente = dadosSigilosos.getContaCorrenteList();
     }
+    
+    private void handleUpdateSaldo() {
+        if(this.tipo.equals("")){
+            JOptionPane.showMessageDialog(rootPane, "Por favor, digite o CPF do cliente", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        String saldo;
+        switch(tipo){
+            case "Investimento":
+                saldo = "R$ " + contaInvestimento.getSaldo();
+                labelSaldo.setText(saldo);
+                break;
+            case "Corrente":
+                saldo = "R$ " + contaCorrente.getSaldo();
+                labelSaldo.setText(saldo);
+                break;
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -272,21 +290,7 @@ public class TelaManejarContas extends javax.swing.JFrame {
     }//GEN-LAST:event_campoSacarActionPerformed
 
     private void botaoSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSaldoActionPerformed
-        if(this.tipo.equals("")){
-            JOptionPane.showMessageDialog(rootPane, "Por favor, digite o CPF do cliente", "Erro", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        String saldo;
-        switch(tipo){
-            case "Investimento":
-                saldo = "R$ " + contaInvestimento.getSaldo();
-                labelSaldo.setText(saldo);
-                break;
-            case "Corrente":
-                saldo = "R$ " + contaCorrente.getSaldo();
-                labelSaldo.setText(saldo);
-                break;
-        }
+        handleUpdateSaldo();
     }//GEN-LAST:event_botaoSaldoActionPerformed
 
     private void voltarBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarBotaoActionPerformed
@@ -312,8 +316,9 @@ public class TelaManejarContas extends javax.swing.JFrame {
         for (ContaInvestimento account : contasInvestimento){
             if(account.getDono().getCpf().equals(textoCpf.getText())){
                 contaInvestimento = account;
-                JOptionPane.showMessageDialog(null, "Cliente encontrado com sucesso", "Success", JOptionPane.INFORMATION_MESSAGE);
                 this.tipo = "Investimento";
+                handleUpdateSaldo();
+                JOptionPane.showMessageDialog(null, "Cliente encontrado com sucesso", "Success", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
         }
@@ -322,6 +327,7 @@ public class TelaManejarContas extends javax.swing.JFrame {
             if(account.getDono().getCpf().equals(textoCpf.getText())){
                 contaCorrente = account;
                 this.tipo = "Corrente";
+                handleUpdateSaldo();
                 JOptionPane.showMessageDialog(null, "Cliente encontrado com sucesso", "Success", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
@@ -333,6 +339,8 @@ public class TelaManejarContas extends javax.swing.JFrame {
       
     }//GEN-LAST:event_encontrarClientesActionPerformed
 
+   
+    
     private void botaoSaqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSaqueActionPerformed
          if(this.tipo.equals("")){
             JOptionPane.showMessageDialog(rootPane, "Por favor, digite o CPF do cliente", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -347,6 +355,7 @@ public class TelaManejarContas extends javax.swing.JFrame {
                     double valorSaque = Double.parseDouble(valorSaqueRaw);
                     deuCerto = contaInvestimento.saca(valorSaque);
                     if (deuCerto){
+                        handleUpdateSaldo();
                         JOptionPane.showMessageDialog(null, "Deu certo o saque", "Sucesso",  JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Deu errado o saque", "Erro",  JOptionPane.OK_OPTION);
@@ -364,6 +373,7 @@ public class TelaManejarContas extends javax.swing.JFrame {
                     deuCerto = contaCorrente.saca(valorSaque);
                     contasCorrente.set(index, contaCorrente);
                     if (deuCerto){
+                        handleUpdateSaldo();
                         JOptionPane.showMessageDialog(null, "Deu certo o saque", "Sucesso",  JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(rootPane, "Deu errado o saque", "Erro",  JOptionPane.OK_OPTION);
@@ -395,6 +405,7 @@ public class TelaManejarContas extends javax.swing.JFrame {
                     deuCerto = contaInvestimento.deposita(valorDeposita);
                     contasInvestimento.set(index, contaInvestimento);
                     if (deuCerto) {
+                        handleUpdateSaldo();
                         JOptionPane.showMessageDialog(null, "Valor adicionado na conta com sucesso", "Success", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } catch (Exception ex) {
@@ -408,6 +419,7 @@ public class TelaManejarContas extends javax.swing.JFrame {
                     double valorDeposita = Double.parseDouble(valorDepositaRaw);
                     deuCerto = contaCorrente.deposita(valorDeposita);
                     if (deuCerto) {
+                        handleUpdateSaldo();
                         JOptionPane.showMessageDialog(null, "Valor adicionado na conta com sucesso", "Success", JOptionPane.INFORMATION_MESSAGE);
                     }
                     contasCorrente.set(index, contaCorrente);
@@ -429,6 +441,7 @@ public class TelaManejarContas extends javax.swing.JFrame {
                     index = contasInvestimento.indexOf(contaInvestimento);
                     contaInvestimento.remunera();
                     contasInvestimento.set(index, contaInvestimento);
+                    handleUpdateSaldo();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(rootPane, "Erro ao efetuar o remunera", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
@@ -438,6 +451,7 @@ public class TelaManejarContas extends javax.swing.JFrame {
                     index = contasCorrente.indexOf(contaCorrente);
                     contaCorrente.remunera(); 
                     contasCorrente.set(index, contaCorrente);
+                    handleUpdateSaldo();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(rootPane, "Erro ao efetuar o remunera", "Erro", JOptionPane.ERROR_MESSAGE);
                 }

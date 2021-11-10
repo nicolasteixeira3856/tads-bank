@@ -281,7 +281,7 @@ public class TelaVincularContaCliente extends javax.swing.JFrame {
                 for(int i = 0; i < clientes.size(); i++) {
                     if (clientes.get(i).getCpf().equals(comboBoxCliente.getSelectedItem().toString())) {
                         Random rand = new Random();
-                        ContaInvestimento conta = new ContaInvestimento(this.clientes.get(i), rand.nextInt(), Double.parseDouble(inputDepositoInicialContaInv.getText()), Double.parseDouble(inputDepositoMinimo.getText()), Double.parseDouble(inputMontanteMin.getText()));
+                        ContaInvestimento conta = new ContaInvestimento(this.clientes.get(i), Double.parseDouble(inputDepositoInicialContaInv.getText()), Double.parseDouble(inputDepositoInicialContaInv.getText()), Double.parseDouble(inputDepositoMinimo.getText()), Double.parseDouble(inputMontanteMin.getText()));
                         dados.createNewContaInvestimento(conta);
                         JOptionPane.showMessageDialog(rootPane, "Cliente vinculado com sucesso", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
                         disposeScreen();

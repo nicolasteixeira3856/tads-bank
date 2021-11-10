@@ -28,6 +28,12 @@ public class Conta implements ContaI {
         this.saldo = depositoInicial;
     }
     
+    public Conta(Cliente donoConta, double depositoInicial, double saldo) {
+        this.donoConta = donoConta;
+        this.depositoInicial = depositoInicial;
+        this.saldo = saldo;
+    }
+    
     @Override
     public double getSaldo() {
         return this.saldo;
