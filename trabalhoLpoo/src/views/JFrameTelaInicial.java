@@ -7,6 +7,8 @@ package views;
 
 import controller.DataController;
 import entidades.Cliente;
+import entidades.ContaCorrente;
+import entidades.ContaInvestimento;
 import java.util.List;
 import javax.swing.JOptionPane;
 import ui.TableModel;
@@ -17,9 +19,13 @@ import utils.Validator;
  * @author Vitor
  */
 public class JFrameTelaInicial extends javax.swing.JFrame {
-     private List<Cliente> clientes;
-     public DataController dados;
-     TableModel modelo;
+    private List<Cliente> clientes;
+    public List<ContaInvestimento> contasInvestimento;
+    public List<ContaCorrente> contasCorrente;
+    public ContaInvestimento contaInvestimento;
+    public ContaCorrente contaCorrente;
+    public DataController dados;
+    TableModel modelo;
     
     /**
      * Creates new form JFrameTelaInicial
@@ -28,12 +34,14 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
         initComponents();
         dados = DataController.getInstance();
         clientes = dados.getClientesList();
-        
+        contasInvestimento = dados.getContaInvestimentoList();
+        contasCorrente = dados.getContaCorrenteList();
         modelo = new TableModel(clientes);
         tableClientes.setAutoCreateRowSorter(true);
         tableClientes.setModel(modelo);
         tableClientes.setRowHeight(60);
         tableClientes.setAutoCreateColumnsFromModel(false);
+        
     }
 
     /**
@@ -313,10 +321,24 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
     private void excluirClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirClienteActionPerformed
         int rowList = tableClientes.convertRowIndexToModel(tableClientes.getSelectedRow());
         if (tableClientes.getSelectedRow() != -1) {
-            //Cliente clienteExcluir = modelo.getValueAtRow(row);
-            //System.out.println(row);
             int dialogResult = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja proceder? \n Todas as contas do cliente serão apagadas.", "Confirmar exclusão", JOptionPane.YES_NO_OPTION);
             if(dialogResult == JOptionPane.YES_OPTION){
+                if (tableClientes.getRowCount() == 1) {
+                    dados.setTudoDeletado(true);
+                }
+                Cliente clienteDeletado = modelo.getValueAtRow(rowList);
+                for(int i = 0; i < contasInvestimento.size(); i++) {
+                    if (contasInvestimento.get(i).getDono().getCpf().equals(clienteDeletado.getCpf())) {
+                        contasInvestimento.remove(i);
+                        JOptionPane.showMessageDialog(null, "Cliente deletado com sucesso", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+                for(int i = 0; i < contasCorrente.size(); i++) {
+                    if (contasCorrente.get(i).getDono().getCpf().equals(clienteDeletado.getCpf())) {
+                        contasCorrente.remove(i);
+                        JOptionPane.showMessageDialog(null, "Cliente deletado com sucesso", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
                 modelo.removeRow(tableClientes.getSelectedRow(), rowList);
             }
         }

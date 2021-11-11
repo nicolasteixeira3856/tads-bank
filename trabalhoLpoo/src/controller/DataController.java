@@ -17,6 +17,7 @@ public class DataController {
     private List<Cliente> clientes = new ArrayList<>();
     private List<ContaInvestimento> contasInvestimento = new ArrayList<>();
     private List<ContaCorrente> contasCorrente = new ArrayList<>();
+    private boolean tudoDeletado = false;
     
     private static DataController INSTANCE = null;
     
@@ -27,6 +28,14 @@ public class DataController {
             }
         }
         return false;
+    }
+
+    public boolean isTudoDeletado() {
+        return tudoDeletado;
+    }
+
+    public void setTudoDeletado(boolean tudoDeletado) {
+        this.tudoDeletado = tudoDeletado;
     }
     
     public void setContasCorrente(List<ContaCorrente> contas){
@@ -92,7 +101,7 @@ public class DataController {
     }
     
     public List<Cliente> getClientesList() {
-        if( this.clientes.isEmpty() ) {
+        if( this.clientes.isEmpty() && !tudoDeletado) {
             Cliente cliente = new Cliente("Julio Márcio", "da Rosa", "238756944", "64631365900", "Avenida Jaime Canet 83", "2000");
             this.clientes.add(cliente);
             cliente = new Cliente("Felipe Pietro", "Fogaça", "287825966", "04092791968", "Avenida Jaime Canet 83", "4000");
@@ -108,7 +117,7 @@ public class DataController {
     }
     
     public List<ContaInvestimento> getContaInvestimentoList() {
-        if( this.contasInvestimento.isEmpty() ) {
+        if( this.contasInvestimento.isEmpty() && !tudoDeletado) {
             ContaInvestimento conta = new ContaInvestimento(this.clientes.get(1));
             this.contasInvestimento.add(conta);
             conta = new ContaInvestimento(this.clientes.get(3));
@@ -118,7 +127,7 @@ public class DataController {
     }
     
     public List<ContaCorrente> getContaCorrenteList() {
-        if( this.contasCorrente.isEmpty() ) {
+        if( this.contasCorrente.isEmpty() && !tudoDeletado) {
             ContaCorrente conta = new ContaCorrente(this.clientes.get(0), 1);
             this.contasCorrente.add(conta);
             conta = new ContaCorrente(this.clientes.get(2), 2);
