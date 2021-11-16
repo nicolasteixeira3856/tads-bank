@@ -13,6 +13,10 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import ui.TableModel;
 import utils.Validator;
+import utils.Filter;
+
+import javax.swing.text.PlainDocument;
+import javax.swing.JPanel;
 
 /**
  *
@@ -69,7 +73,7 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
         textoRg = new javax.swing.JTextField();
         textoCpf = new javax.swing.JTextField();
         textoEndereco = new javax.swing.JTextField();
-        textoSalario = new javax.swing.JTextField();
+        textoSalario = new javax.swing.JTextField(20);
         inserirCliente = new javax.swing.JButton();
         vinculaConta = new javax.swing.JButton();
         excluirCliente = new javax.swing.JButton();
@@ -119,11 +123,22 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
             }
         });
 
+        panel.add(textoRg);
+        PlainDocument newRg = (PlainDocument) textoRg.getDocument();
+        newRg.setDocumentFilter(new Filter());
         textoRg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textoRgActionPerformed(evt);
             }
         });
+
+        panel.add(textoCpf);
+        PlainDocument newCpf = (PlainDocument) textoCpf.getDocument();
+        newCpf.setDocumentFilter(new Filter());
+
+        panel.add(textoSalario);
+        PlainDocument doc = (PlainDocument) textoSalario.getDocument();
+        doc.setDocumentFilter(new Filter());
 
         inserirCliente.setText("Inserir Cliente");
         inserirCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -174,7 +189,7 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(textoRg)
                             .addComponent(textoCpf, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(textoEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -190,7 +205,7 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addGap(11, 11, 11)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -300,6 +315,10 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Valores inválidos", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         } 
+        if (!Validator.ValidateLong(rg) || !Validator.ValidateLong(salario)) {
+            resetarCampos();
+            return;
+        }
         if (Validator.isCPF(cpf)) {
             Cliente novoCliente = new Cliente(nome, sobrenome, rg,cpf, endereco, salario);
             dados.insertClient(novoCliente);
@@ -398,6 +417,7 @@ public class JFrameTelaInicial extends javax.swing.JFrame {
     private javax.swing.JTextField textoNome;
     private javax.swing.JTextField textoRg;
     private javax.swing.JTextField textoSalario;
+    JPanel panel = new JPanel();
     private javax.swing.JTextField textoSobrenome;
     private javax.swing.JButton vinculaConta;
     // End of variables declaration//GEN-END:variables

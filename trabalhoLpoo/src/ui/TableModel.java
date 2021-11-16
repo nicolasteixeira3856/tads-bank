@@ -6,8 +6,11 @@
 package ui;
 
 import entidades.Cliente;
+import exceptions.*;
 import static java.lang.Float.parseFloat;
 import java.util.List;
+import javax.swing.JOptionPane;
+import utils.Validator;
 
 /**
  *
@@ -95,15 +98,27 @@ public class TableModel extends javax.swing.table.AbstractTableModel implements 
                 cliente.setSobrenome(aValue.toString());                
                 break;
             case 2:
+                boolean valorRg = Validator.ValidateLong(aValue.toString());
+                if (!valorRg){
+                    break;
+                }
                 cliente.setRg(aValue.toString());   
                 break;
             case 3:
-                cliente.setCpf(aValue.toString());  
+                 if (Validator.isCPF(aValue.toString())) {
+                    cliente.setCpf(aValue.toString());  
+                    break;
+                }
+                JOptionPane.showMessageDialog(null, "CPF inválido", "Erro", JOptionPane.ERROR_MESSAGE); 
                 break;
             case 4:
                 cliente.setEndereco(aValue.toString());  
                 break;
             case 5:
+                boolean valor = Validator.ValidateLong(aValue.toString());
+                if (!valor){
+                    break;
+                }
                 cliente.setSalario(aValue.toString());
                 break;
         }
@@ -118,5 +133,5 @@ public class TableModel extends javax.swing.table.AbstractTableModel implements 
     public int compareTo(Object arg0) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+      
 }

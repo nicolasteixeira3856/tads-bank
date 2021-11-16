@@ -8,6 +8,9 @@ package controller;
 import entidades.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
+import utils.Validator;
+
 
 /**
  *
@@ -42,16 +45,27 @@ public class DataController {
         this.contasCorrente = contas;
     }
     
-    public void createNewContaCorrente(ContaCorrente conta){
-        this.contasCorrente.add(conta);
+    public boolean createNewContaCorrente(ContaCorrente conta){
+        try{
+            this.contasCorrente.add(conta);
+            return true;
+        } catch(Exception e) {
+           return false;
+        }
     }
     
     public void setContasInvestimento(List<ContaInvestimento> contas){
         this.contasInvestimento = contas;
     }
     
-    public void createNewContaInvestimento(ContaInvestimento conta){
-        this.contasInvestimento.add(conta);
+    public boolean createNewContaInvestimento(ContaInvestimento conta){
+        try{
+            this.contasInvestimento.add(conta);
+                return true;
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "asdasd", "Erro!", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
     }
     
     public ContaInvestimento getInvestimentAccountByCPF(String cpf){

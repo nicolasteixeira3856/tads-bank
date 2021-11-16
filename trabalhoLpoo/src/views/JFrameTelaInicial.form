@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.4" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -119,7 +119,7 @@
                               <Component id="textoRg" max="32767" attributes="0"/>
                               <Component id="textoCpf" pref="152" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="textoEndereco" min="-2" pref="362" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
@@ -143,7 +143,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -247,12 +247,23 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textoRgActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="panel.add(textoRg);&#xa;PlainDocument newRg = (PlainDocument) textoRg.getDocument();&#xa;newRg.setDocumentFilter(new Filter());"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="textoCpf">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="panel.add(textoCpf);&#xa;PlainDocument newCpf = (PlainDocument) textoCpf.getDocument();&#xa;newCpf.setDocumentFilter(new Filter());"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="textoEndereco">
         </Component>
         <Component class="javax.swing.JTextField" name="textoSalario">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JTextField(20)"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="JPanel panel = new JPanel();"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="panel.add(textoSalario);&#xa;PlainDocument doc = (PlainDocument) textoSalario.getDocument();&#xa;doc.setDocumentFilter(new Filter());"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="inserirCliente">
           <Properties>

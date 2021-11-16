@@ -9,6 +9,9 @@ import controller.DataController;
 import entidades.*;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import utils.Filter;
+import javax.swing.text.PlainDocument;
 
 /**
  *
@@ -108,6 +111,9 @@ public class TelaManejarContas extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         jLabel4.setText("Sacar");
 
+        panel.add(campoSacar);
+        PlainDocument newSacar = (PlainDocument) campoSacar.getDocument();
+        newSacar.setDocumentFilter(new Filter());
         campoSacar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 campoSacarActionPerformed(evt);
@@ -121,6 +127,15 @@ public class TelaManejarContas extends javax.swing.JFrame {
         botaoSaque.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoSaqueActionPerformed(evt);
+            }
+        });
+
+        panel.add(campoDeposita);
+        PlainDocument newDeposito = (PlainDocument) campoDeposita.getDocument();
+        newDeposito.setDocumentFilter(new Filter());
+        campoDeposita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                campoDepositaActionPerformed(evt);
             }
         });
 
@@ -421,8 +436,10 @@ public class TelaManejarContas extends javax.swing.JFrame {
                     if (deuCerto) {
                         handleUpdateSaldo();
                         JOptionPane.showMessageDialog(null, "Valor adicionado na conta com sucesso", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        contasCorrente.set(index, contaCorrente);
+                    }else {
+                        throw new Exception();
                     }
-                    contasCorrente.set(index, contaCorrente);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(rootPane, "Erro ao efetuar o deposito", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
@@ -458,6 +475,10 @@ public class TelaManejarContas extends javax.swing.JFrame {
                 break;
         }
     }//GEN-LAST:event_botaoRemuneraActionPerformed
+
+    private void campoDepositaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_campoDepositaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_campoDepositaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -501,6 +522,7 @@ public class TelaManejarContas extends javax.swing.JFrame {
     private javax.swing.JButton botaoSaldo;
     private javax.swing.JButton botaoSaque;
     private javax.swing.JTextField campoDeposita;
+    JPanel panel = new JPanel();
     private javax.swing.JTextField campoSacar;
     private javax.swing.JButton encontrarClientes;
     private javax.swing.JLabel jLabel1;

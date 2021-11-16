@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.4" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -192,6 +192,10 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoSacarActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="JPanel panel = new JPanel();"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="panel.add(campoSacar);&#xa;PlainDocument newSacar = (PlainDocument) campoSacar.getDocument();&#xa;newSacar.setDocumentFilter(new Filter());"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>
@@ -210,6 +214,12 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="campoDeposita">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="campoDepositaActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="panel.add(campoDeposita);&#xa;PlainDocument newDeposito = (PlainDocument) campoDeposita.getDocument();&#xa;newDeposito.setDocumentFilter(new Filter());"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="botaoDeposito">
           <Properties>

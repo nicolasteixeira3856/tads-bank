@@ -7,6 +7,7 @@ package utils;
 
 
 import java.util.InputMismatchException;
+import javax.swing.JOptionPane;
 /**
  *
  * @author nicol
@@ -56,6 +57,25 @@ public class Validator {
             else return(false);
                 } catch (InputMismatchException erro) {
                 return(false);
+            }
+        }
+    
+        public static boolean ValidateLong(Object numberObj){
+        try {
+            Long.parseLong((String) numberObj);
+            return true; 
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Não é um numérico válido, tente novamente.", "Erro!", JOptionPane.ERROR_MESSAGE);
+            return false;
+            }
+        }
+        
+        public static boolean ValidateVinculo(Object numberObj){
+        try {
+            Long.parseLong((String) numberObj);
+            return true; 
+        } catch (Exception e) {
+            return false;
             }
         }
 }
