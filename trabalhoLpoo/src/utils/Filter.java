@@ -34,7 +34,7 @@ public class Filter extends DocumentFilter {
          if(text.trim().isEmpty()){
              return true;
          }
-         Long.parseLong(text);
+         Double.parseDouble(text);
          return true;
       } catch (NumberFormatException e) {
          return false;

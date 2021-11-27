@@ -62,7 +62,7 @@ public class Validator {
     
         public static boolean ValidateLong(Object numberObj){
         try {
-            Long.parseLong((String) numberObj);
+            Double.parseDouble((String) numberObj);
             return true; 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Não é um numérico válido, tente novamente.", "Erro!", JOptionPane.ERROR_MESSAGE);
@@ -72,7 +72,7 @@ public class Validator {
         
         public static boolean ValidateVinculo(Object numberObj){
         try {
-            Long.parseLong((String) numberObj);
+            Double.parseDouble((String) numberObj);
             return true; 
         } catch (Exception e) {
             return false;

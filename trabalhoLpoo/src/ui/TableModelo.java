@@ -16,10 +16,10 @@ import utils.Validator;
  *
  * @author Vitor
  */
-public class TableModel extends javax.swing.table.AbstractTableModel implements Comparable{
+public class TableModelo extends javax.swing.table.AbstractTableModel implements Comparable{
     private List<Cliente> clientes;
     
-    public TableModel(List<Cliente> values) {
+    public TableModelo(List<Cliente> values) {
         this.clientes = values;
     }
     
@@ -128,6 +128,7 @@ public class TableModel extends javax.swing.table.AbstractTableModel implements 
         this.clientes.remove(linhaLista);
         this.fireTableRowsDeleted(linha, linha);
     }
+    
     
     @Override
     public int compareTo(Object arg0) {
